@@ -139,5 +139,164 @@ Multi-Vantage Point Measurements
 | **How do heliosystem boundaries manifest themselves?** | &bullet; System impacts of magnetic boundary processes<br>&bullet; Role of transition regions in system coupling<br>&bullet; Interactions at plasma-neutral transition regions | **Heliosphere:** Magnetic field, plasma state and dynamics, and energetic particles at different layers of the solar atmosphere and throughout the heliosphere.<br><br>**Magnetosphere:** Combination of multispacecraft in situ measurements, magnetospheric imaging, and numerical simulations.<br><br>**Upper atmosphere:** Multiplane, multialtitude measurements of the auroral outflow processes, including plasma and neutral components. | Detailed plasma physics and neutral gas models covering a variety of scales and processes from kinetic to large-scale coupling. |
 | **How do the components of the Sun–Earth system interact with each other?** | &bullet; Magnetic connections across the heliosystem<br>&bullet; Multiple drivers and feedback mechanisms | **Heliosphere:** Plasmas, energetic particles, and fields in the inner and outer heliosphere.<br><br>**Magnetosphere:** In situ multipoint mesoscale resolving magnetic field and plasma measurements from magnetotail transition region combined with auroral and ionospheric plasma remote sensing observations.<br><br>**Upper atmosphere:** Simultaneous observations of auroral and ionospheric processes at both hemispheres. | Large-scale, integrative heliospheric systems models combined with models covering one or a few of the systems with capability to resolve smaller mesoscale processes that have large-scale impacts. |
 
+# Global landscape of space weather observations, research and operations
+- Advances in Space Research: Ishii et al. (2025)
 
+## Abstract
+- Risks to Critical Infrastructure
+    - Space weather is no longer just a scientific curiosity; it is a direct threat to the modern economy.
+- GNSS Vulnerability
+  - High-precision satellite positioning (GPS/GNSS) is now essential for social and economic infrastructure. However, ionospheric variations can degrade the accuracy and reliability of these systems.
+- Aviation & Power 
+  - Space weather events can disrupt flight communications and cause damaging surges in electric power grids.
+- The Global Monitoring Gap
+    - Because space weather is a global phenomenon, it cannot be monitored by any single entity. The current landscape is fragmented:
+      - Ground-based: Mostly managed by local governments or academic institutions.
+      - Space-based: Typically operated by national space agencies.
+- A Call for Strategic Collaboration
+  - The paper emphasizes that enhancing our ability to monitor, forecast, and mitigate impacts depends on two levels of cooperation:
+    - Intra-national: Better coordination between agencies and private entities within a single country.
+    - International: Alignment between national space programs to share data and manage large-scale observation projects.
+- Overview of the National Landscape
+  - The authors review how different nation-states and regional space agencies are currently handling research and operations, providing a "map" of global capabilities designed to help strengthen future mitigation strategies
 
+# Potential Data Sources
+- Use publicly avaiable datasets alongside data fusion techniques to combine L1 (Lagrange Point 1), LEO (Low Earth Orbit), and Ground Measurements to create an AI/ML ready dataset
+
+## L1 Sources
+- Access via `sunpy` or `hapi-client`
+- DSCOVR (NOAA)
+- ACE (NASA)
+
+## LEO Sources
+- Access via `vires` or `cdflib` or `viresclient`
+- Swarm (ESA)
+- DMSP (US Air Force)
+- Iridium (AMPERE)
+
+## Ground Sources
+- Access via `supermag` or `geomag-py`
+- SuperMAG
+- SuperDARN
+- INTERMAGNET
+
+# UCSD MDS Capstone (DSC 288R) Syllabus
+## Course Description
+- The Graduate Capstone Project in Data Science course (DSC 288R) serves as the culminating
+experience for the MDS program. This course consists of a quarter-long project that requires
+the application of the data science knowledge and skills acquired throughout the MDS
+curriculum. Students will pick a project that will be defined and designed ahead of time
+through a submission and review process in advance of the quarter. Projects are to be
+completed in small groups of three or fewer (or individually in rare cases) and graded based on
+a 10-step process translated into executable notebook-based reports throughout, that
+generally adhere to the life cycle of a data science project.
+
+## Course Objectives
+- Work with real-life data to apply data science skills to a problem of their choice
+- Clean and structure data in a way that enables hypothesis generation and data analysis
+- Create a scalable big data pipeline from data ingestion and exploration to modeling and
+evaluation
+- Build machine learning models and evaluate insights
+- Communicate findings through visualizations and notebook-based reports
+
+## Course Outline
+- Week 1: Select Project
+- Week 2: Submit Project Abstract
+- Week 3: Create Exploratory Analysis using Jupyter Notebooks
+- Week 4: 1st Progress Report
+- Week 5: Modeling and Evaluation
+- Week 6: Modeling and Evaluation
+- Week 7: 2nd Progress Report
+video and presentation.
+- Week 8: Document your models and start project report 
+- Week 9: Peer Review Projects 
+- Week 10: Submit Final Report
+
+## Course Milestones
+- Milestone 1
+  - Choosing a project domain
+    - Your topic should have a unique goal and should be quite focused.
+    - You are not expected to create new results (implementing existing work is equally welcome).
+    - The work should focus on a domain and dataset that is explained in the abstract.
+      - ex: Data from wireless communications: electromagnetic waves interact with the surroundings in specific ways deciding the data that is observed physics involved. 
+      - ex: Data of shopping pattern of users on amazon.com the underlying reason behind the data observed has no physics involved.
+  - Abstract
+    - Background: a few lines on the problem for which you are planning to apply deep learning. Why is this a problem where ML will work well? Are there datasets you can use to train and test your model?
+    - Literature review - a few lines on how people have solved this problem in the research community, providing references.
+    - What you intend to do and motivation - a few lines on what approach you intend to take to solve the problem and the reasons why you are taking this approach. If you are planning to implement an existing idea please explicitly state so and cite prior work.
+    - Include details of the dataset/feature extraction/algorithm you intend to use (SVM or random forest or CNN or GAN etc).
+- Milestone 2 
+  - Progress Report
+    - Background
+      - Two lines on the problem you are planning to solve. Simply put, why is this problem important to be solved?
+    - Dataset name and citation/link
+      - Simply provide the name of the dataset and a link to where its located.
+    - Is feature extraction used
+      - Answer using Yes/No, if you are doing feature engineering for one/more of your planned models
+    - If you answered yes to 4, what features are you planning to extract (with citations on where these are used)
+      - Fill in the answers to the following
+        - Features used in literature (if any?) that you are using here
+        - Other features which you are confident about using
+        - Features that you want to try which haven’t been explored in literature
+    - What model(s) are used
+      - Simply name the model(s) you are using in order of highest to lowest priority for implementation
+      - Model Architecture from literature that you plan to use
+      - New architecture experiments you want to try
+    - Progress
+      - Details on your progress. Effort taken on dataset collection, feature extraction,what tests you have run etc.
+    - Risks
+      - List any risks you see at this stage to completing the project you defined in the abstract and how you are mitigating them.
+    - References
+      - Please include relevant references.
+- Milestone 3
+  - Second Progress Report
+    - Video Presentation with slides
+      - Maximum 12 min
+      - Background (1-2 slides)
+        - The problem you are planning to solve. Simply put, why is this problem important to be solved?
+      - Literature Survey (~2 slides)
+        - How have people tried to solve this problem? Details on all approaches attempted over the last few years/or few decades.
+      - How do you think machine learning/deep learning can help solve this problem? (1 or more slides)
+      - Details on Dataset (~ 1 slide)
+        - Did you generate a dataset or used it from another source? 
+        - What are the different classes/dimensions and size of data? 
+        - Cite the source if you used an existing dataset and mention the modifications you made to it, if any.
+      - Details on feature extraction (~ 1 slide)
+      - Details on model used (~ 2 slides)
+        - What type of models were used and why. 
+        - Illustration of model wherever applicable
+          - ex: if using a CNN, an illustration/table on the layers/filters used.
+      - Results/Observations (~2-3 slides)
+        - Share plots/table of training and test accuracies/confusion matrices etc. 
+        - What do you infer from these results?
+      - Further items to be completed before final report submission (~ 1 slide)
+        - Any risks you foresee to completing the project and mitigations you have come up with.
+        - Additional implementations needed
+      - References
+- Milestone 4
+  - Final Report
+    - submit .pdf of written report and code 
+  - Guidelines
+    - ​This is not a rubric! Completing all sections below will not guarantee you a certain grade. We​ ​are providing this to help structure your report.
+    - The report should be no more than 4 double​ column pages, excluding contributions (8) and references (11). 
+    - Text exceeding 4 pages is not​ considered part of report​
+    - ​Abstract​​[≈ 1 paragraph]​ ​It should consist of 1 paragraph consisting of the motivation for your paper and a high​ ​level explanation of the methodology you used/results obtained.​
+    - ​Introduction​​[≈ 2 paragraphs]​Explain the problem, why it is important and your motivation for pursuing this problem.​ Give some background if necessary. Clearly state what the input and output is. Be very​ explicit: “The input to our algorithm is an {image, amplitude, patient age, grayscale​ video}. We then use a {SVM, neural network, linear regression, etc.} to output a​ ​predicted {age, stock price, cancer type, music genre, etc.}.” This is very important since​ each team has different inputs/outputs spanning many application domains. Being​ ​explicit about this makes it easier for readers.
+    - ​Related work​​[≈ 2 paragraph]​You should find existing papers, group them into categories based on their​ approaches, and discuss their strengths and weaknesses, as well as how they are​ ​similar to and differ from your work. In your opinion, which approaches were​ ​clever/good? What is the state-of-the-art? Do most people perform the task by hand?​ ​You should aim to have at least 5 references in the related work. Include previous​ ​attempts by others at your problem, previous technical methods, or previous learning​ ​algorithms.
+    - ​Dataset and Features​​[≈ 0.5 pages]​​Describe your dataset: how many training/validation/test examples do you have? Is​​ there any preprocessing you did? What about normalization or data augmentation?​ ​What is the resolution of your images? How is your time-series data discretized?​ ​Include a citation on where you obtained the data. List the probable predictive tasks​ you can do with the dataset and why you chose to do one of these tasks as a part of​ ​your project over others. For example, for dataset with images of cats, you can find​ ​cats' position in the images, classify whether an image has a cat or not (or) classify cat​ ​based on breed if a cat is present in the image. Show some examples from your​ ​dataset. You should talk about the features you used. If you extracted features using​ Fourier transforms, PCA, ICA, etc. make sure to talk about it. Include examples of your​ data in the report (e.g. include an image, show a waveform).​
+    - ​Methods​​[≈ 1 pages]​ Describe your learning algorithms or proposed algorithm(s). Make sure to include​ relevant mathematical notation. For example, you can briefly include the SVM​ ​optimization objective/formula or say what the softmax function is. It is okay to use​​formulas from the lecture notes. For each algorithm, give a short description (≈1​paragraph) of how it works. Again, we are looking for your understanding of how these​ ​machine learning algorithms work. Although the TAs know the algorithms, future​​readers may not. Additionally, if you are using a niche or cutting-edge algorithm you​ ​may want to explain your algorithm using a paragraph.​
+    - ​Experiments/Results/Discussion​​[≈ 2 pages]​ ​Give details about what (hyper)parameters you chose (e.g. why did you use X learning​rate for gradient descent, what was your mini-batch size and why) and how you chose​ them. Did you do cross-validation, if so, how many folds? Before listing results, list and​ ​explain what your primary metrics are: accuracy, precision. Provide equations for the​ ​metrics if necessary. For results, have a mixture of tables and plots. For a classification​ ​problem, include a confusion matrix. Include performance metrics such as precision,​ recall, and accuracy. For regression problems, state the average error. Include​ visualizations of results, heatmaps, examples of where your algorithm failed and a​ ​discussion of why certain algorithms fail/succeed. Make sure to discuss the​ figures/tables in your main text throughout this section. Plots should include legends,​ axis labels, and have font sizes that are legible when printed.​
+    - ​Conclusion​​[≈ 1 paragraph]​ Summarize your report and reiterate key points. Which algorithms were the highest​​performing? Why do you think that some algorithms worked better than others?​ Report should be 4 pages to this point.​
+    - ​​References/Bibliography​​[No page limit]​​Include citations for: (1) Any papers mentioned in the related work section. (2) Papers​ describing algorithms that you used. (3) Code or libraries you downloaded and used.​ ​This includes libraries such as scikit-learn, Matlab toolboxes, Tensorflow, etc. We are​ ​excluding the references section from the page limit to encourage a thorough literature​ review/related work section without being space-penalized.​
+
+# UCSD GAIA Initiative
+- The GAIA Initiative represents a transformative partnership between UC San Diego’s world-renowned oceanographic and Earth science expertise and cutting-edge artificial intelligence research. By uniting more than 28 faculty across Scripps Institution of Oceanography, the Halıcıoğlu Data Science Institute, and other UC San Diego departments, GAIA is pioneering new approaches to understanding and predicting Earth’s complex systems.
+  - Mission: GAIA harnesses the power of artificial intelligence to transform how we understand, forecast, and steward Earth’s complex systems.
+  - The initiative aims to deliver:
+    - Deeper Scientific Insight: Uncovering patterns and relationships in Earth system data that traditional methods cannot detect
+    - Predictive Power: Improving forecasts for climate resilience, disaster preparedness, and environmental management
+    - Next-Generation Training: Preparing students and researchers with modern data-centric skills for Earth system science
+  - Research Focus Area
+    - GAIA aims to tackle some of the most pressing challenges in Earth system science
+  - Project Leads: Duncan Watson-Parris and Ilkay Altintas
+​    
