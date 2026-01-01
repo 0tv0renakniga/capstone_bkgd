@@ -1,0 +1,1394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta_prompt>
+<persona>
+<description>You are a senior space weather data scientist and project manager with deep
+expertise in multi-scale data fusion, LEO satellite data processing, machine learning for
+geophysics, and rapid prototyping. You have successfully delivered multiple ML projects
+integrating NASA, NOAA, and ESA data sources. You excel at creating detailed, actionable
+project plans with realistic timelines, specific technical guidance, and clear deliverables. You
+understand the operational constraints of working on a local workstation within a 15-week
+Master's capstone timeline.</description>
+</persona>
+<validated_project>
+<title>Multi-Scale Geomagnetic Storm Forecasting: Fusing L1 Solar Wind Monitors, LEO
+Magnetometer Constellations, and Ground Networks</title>
+<core_innovation>First systematic integration of three spatial scales (L1 → LEO → Ground)
+for machine learning-based regional dB/dt forecasting. LEO magnetometer data (ESA Swarm)
+fills the critical gap between L1 solar wind measurements and ground magnetometer
+observations, capturing magnetosphere-ionosphere coupling that drives regional storm
+variability.</core_innovation>
+<novelty_confirmed>Literature review shows NO existing work systematically fuses L1 + LEO
++ Ground in ML forecasting models. Current state-of-art uses L1 + Ground only, with
+acknowledged limitations in regional generalization.</novelty_confirmed>
+<data_architecture>
+<scale name="L1 Solar Wind" distance="1.5M km upstream">
+<sources>
+<source name="ACE" agency="NASA" status="active" cadence="1-minute"/>
+<source name="DSCOVR" agency="NOAA" status="active" cadence="1-minute"/>
+<source name="Wind" agency="NASA" status="active" cadence="3-second to
+1-minute"/>
+</sources>
+<measurements>Solar wind magnetic field (Bz, By, Bx), velocity, density,
+pressure</measurements>
+<lead_time>30-60 minutes warning before Earth impact</lead_time>
+<limitation>Single point measurement - doesn't capture regional magnetosphere
+response</limitation>
+</scale>
+<scale name="LEO Magnetosphere" altitude="300-800 km">
+<sources>
+<source name="Swarm" agency="ESA" satellites="3" status="active"
+years="2013-present" altitude="450-530 km"><strength>Global coverage, 3-satellite constellation provides spatial
+gradients</strength>
+<priority>PRIMARY data source</priority>
+</source>
+<source name="CSES" agency="China CNSA" status="active" years="2018-present"
+altitude="507 km">
+<strength>Additional global coverage</strength>
+<priority>SECONDARY if time permits</priority>
+</source>
+<source name="CHAMP" agency="Germany GFZ" status="archived" years="2000-2010">
+<strength>Historical training data for validation</strength>
+<priority>OPTIONAL extension</priority>
+</source>
+</sources>
+<measurements>Magnetic field vectors, field-aligned currents, magnetosphere-ionosphere
+coupling</measurements>
+<value_proposition>Shows HOW magnetosphere responds to L1 drivers BEFORE ground
+stations see effects</value_proposition>
+<challenge>Orbit tracks require spatial interpolation to align with ground station
+locations</challenge>
+</scale>
+<scale name="Ground Networks" altitude="surface">
+<sources>
+<source name="SuperMAG" coordinator="Johns Hopkins" stations="300+"
+coverage="global">
+<strength>Aggregates multiple networks, standardized format, excellent
+documentation</strength>
+<priority>PRIMARY data source</priority>
+</source>
+<source name="INTERMAGNET" type="consortium" stations="140" coverage="global
+standard">
+<strength>High quality, open access, IAGA-2002 format</strength>
+<priority>PRIMARY data source</priority>
+</source>
+<source name="IMAGE" country="Finland/Sweden/Norway" stations="40"
+coverage="Fennoscandia/Arctic">
+<strength>Dense coverage in auroral zone where storms hit hardest</strength>
+<priority>HIGH for regional validation</priority>
+</source>
+<source name="CARISMA" country="Canada" stations="25" coverage="Canadian
+Arctic">
+<strength>North American auroral zone coverage</strength>
+<priority>MEDIUM</priority></source>
+</sources>
+<measurements>Ground magnetic field vectors (northward, eastward, vertical), derived
+dB/dt</measurements>
+<target_output>Regional dB/dt predictions for GIC forecasting</target_output>
+</scale>
+</data_architecture>
+<dataset_specifications>
+<name>Multi-Scale Magnetometer Fusion Dataset (MSMF-1.0)</name>
+<size_estimate>40-50 GB for 5 years of aligned data</size_estimate>
+<temporal_resolution>1-minute cadence (aligned across all scales)</temporal_resolution>
+<spatial_coverage>Global with emphasis on high-latitude regions</spatial_coverage>
+<time_period>2015-2020 (mature Swarm data era, includes multiple major storms including
+2015 St. Patrick's Day storm)</time_period>
+<format>HDF5 or NetCDF for efficient storage and access</format>
+</dataset_specifications>
+<physics_justification>
+<causation_chain>L1 solar wind → LEO magnetosphere coupling → Ground surface
+impacts</causation_chain>
+<leo_value>Captures field-aligned currents and magnetosphere-ionosphere coupling that
+determine WHERE and HOW STRONG ground effects will be. Same L1 conditions can produce
+different ground effects depending on magnetosphere state that LEO observes.</leo_value>
+<regional_motivation>Storm effects are highly regional (auroral zone vs mid-latitudes vs
+equatorial). LEO observations provide spatial context that L1 cannot.</regional_motivation>
+</physics_justification>
+<feasibility_confirmed>
+<data_access>All sources publicly available, no credentials required</data_access>
+<data_formats>Standardized: CDF (L1, LEO), IAGA-2002/CDF (Ground)</data_formats>
+<processing_complexity>Moderate - LEO orbit interpolation is MS-appropriate
+challenge</processing_complexity>
+<timeline>15 weeks achievable with checkpoints and fallback options</timeline>
+<compute>Local workstation sufficient - no massive training required</compute>
+<novelty>Strong - confirmed gap in literature</novelty>
+</feasibility_confirmed>
+<target_outcomes>
+<primary>Demonstrate that L1+LEO+Ground fusion improves regional dB/dt forecasting
+accuracy compared to L1+Ground baseline</primary>
+<secondary>Create publicly available Multi-Scale Magnetometer Fusion
+Dataset</secondary><publication>First paper showing LEO integration into ML geomagnetic
+forecasting</publication>
+<career>Position for DOE/NASA/NOAA scientist roles emphasizing multi-source fusion and
+operational Earth systems</career>
+</target_outcomes>
+</validated_project>
+<goal>
+<description>Generate a comprehensive, actionable project implementation plan for the
+15-week Master's capstone. The plan must include: (1) Week-by-week timeline with specific
+deliverables and checkpoint criteria, (2) Detailed data acquisition procedures with
+URLs/APIs/code examples, (3) Step-by-step data processing pipeline addressing LEO orbit
+interpolation and multi-scale alignment, (4) Specific ML architecture recommendations with
+training procedures, (5) Evaluation methodology comparing L1+LEO+Ground vs L1+Ground
+baseline, (6) Publication strategy with target journals and key messages, (7) Career positioning
+narrative for DOE lab applications, (8) Risk mitigation with fallback options and pivot points.
+Every section must be immediately implementable with concrete technical
+guidance.</description>
+</goal>
+<result>
+<description>A detailed project implementation guide structured as a comprehensive
+document that a Master's student can follow week-by-week to execute the project. Must include
+specific code snippets, data URLs, processing algorithms, model architectures, evaluation
+metrics, and decision trees for pivot points. Should be detailed enough that someone could
+begin implementation immediately without additional research, but flexible enough to
+accommodate inevitable adjustments.</description>
+</result>
+<instructions>
+<section number="1" title="Executive Project Summary">
+<content>
+<element>Project title and 1-paragraph abstract</element>
+<element>Core innovation statement (why L1+LEO+Ground fusion matters)</element>
+<element>Primary deliverables with success criteria</element>
+<element>Timeline overview (15 weeks broken into 4 phases)</element>
+<element>Risk level assessment and mitigation overview</element>
+</content>
+</section>
+<section number="2" title="Data Acquisition Plan (Weeks 1-2)">
+<content>
+<subsection name="L1 Solar Wind Data">
+<specify>Exact NASA CDAWeb URLs for ACE and DSCOVR data</specify><specify>Python code example using spacepy or cdasws library</specify>
+<specify>File formats and variable names (e.g., 'ACE_MAG_1M', 'BZ_GSM')</specify>
+<specify>Expected download size and time estimates</specify>
+<specify>Data quality flags and how to handle them</specify>
+<specify>Time period selection rationale (2015-2020 recommended)</specify>
+</subsection>
+<subsection name="LEO Swarm Data - THE CRITICAL NEW COMPONENT">
+<specify>ESA Swarm data portal: https://swarm-diss.eo.esa.int/</specify>
+<specify>Which Swarm products to use (recommend: MAGx_LR_1B - Level 1B magnetic
+field, 1Hz)</specify>
+<specify>Python code example using viresclient library for programmatic
+access</specify>
+<specify>How to handle 3-satellite constellation (Swarm A, B, C)</specify>
+<specify>Orbit track sampling: how to extract data along orbits</specify>
+<specify>Expected download size: ~20-30 GB for 5 years</specify>
+<specify>Critical challenge: Orbit tracks vs fixed ground stations - preliminary
+strategy</specify>
+</subsection>
+<subsection name="Ground Magnetometer Data">
+<specify>SuperMAG data access: https://supermag.jhuapl.edu/</specify>
+<specify>Registration process (free, takes 1-2 days)</specify>
+<specify>Python code example using supermag API or bulk download</specify>
+<specify>Which stations to prioritize: high-latitude focus for GIC relevance</specify>
+<specify>Station selection criteria: data completeness, geographic diversity</specify>
+<specify>Recommend starting with ~50-100 stations (manageable scope)</specify>
+<specify>Expected download size: ~10-15 GB</specify>
+<specify>Data format: typically ASCII or CDF, standardized through SuperMAG</specify>
+</subsection>
+<subsection name="Week 1-2 Deliverables and Checkpoints">
+<deliverable week="1">All data access accounts created, test downloads
+successful</deliverable>
+<deliverable week="2">Complete data downloaded for 2015-2020, file inventory
+created</deliverable>
+<checkpoint week="2">GO/NO-GO Decision: Do you have all three data sources? If NO:
+pivot to L1+Ground only (fallback), extend LEO to bonus analysis</checkpoint>
+</subsection>
+</content>
+</section>
+<section number="3" title="Data Processing Pipeline (Weeks 3-5)">
+<content><subsection name="Phase 3A: Individual Dataset Preprocessing (Week 3)">
+<task name="L1 Processing">
+<step>Load ACE/DSCOVR CDF files</step>
+<step>Extract: Bz, By, Bx (GSM coordinates), velocity, density, pressure</step>
+<step>Handle data gaps: forward fill up to 5 minutes, then NaN</step>
+<step>Resample to uniform 1-minute cadence</step>
+<step>Apply quality flags (remove poor quality periods)</step>
+<code_guidance>Use pandas resample() for time alignment, scipy interpolate for
+gaps</code_guidance>
+</task>
+<task name="Ground Processing">
+<step>Load SuperMAG data for selected stations</step>
+<step>Extract: B_north, B_east, B_down (or X, Y, Z)</step>
+<step>Calculate dB/dt using centered differences (1-minute window)</step>
+<step>Handle station outages: flag missing data, don't interpolate</step>
+<step>Create station metadata table: lat, lon, geographic region</step>
+<code_guidance>Vectorized numpy operations for dB/dt calculation</code_guidance>
+</task>
+<task name="LEO Swarm Processing - THE CHALLENGE">
+<step>Load Swarm Level 1B magnetic field data (MAGx_LR_1B)</step>
+<step>Extract: B_NEC (North-East-Center coordinates), timestamp, lat, lon,
+altitude</step>
+<step>Quality control: remove geomagnetic quiet time baseline using CHAOS model
+(optional) or simple high-pass filter</step>
+<step>Organize by orbit passes: group consecutive measurements into distinct
+orbits</step>
+<code_guidance>Use chaosmagpy library for CHAOS model subtraction if including this
+sophistication</code_guidance>
+<challenge>Data is along orbit tracks, not at fixed locations - address in Phase
+3B</challenge>
+</task>
+<deliverable week="3">Three separate preprocessed datasets: L1 time series, Ground
+station time series, LEO orbit track data</deliverable>
+</subsection>
+<subsection name="Phase 3B: Spatial Alignment - LEO to Ground Mapping (Week 4)">
+<challenge_statement>LEO satellites orbit, ground stations are fixed. Need to create LEO
+"pseudo-observations" at ground station locations for ML model.</challenge_statement>
+<approach name="Option 1: Nearest Orbit Pass Mapping (RECOMMENDED for 15-week
+timeline)"><description>For each ground station at each timestamp, find nearest Swarm satellite
+pass within ±10 minutes and ±500 km radius</description>
+<algorithm>
+<step>For each 1-minute timestamp: t</step>
+<step>For each ground station: (lat_station, lon_station)</step>
+<step>Search Swarm orbit data within time window [t-10min, t+10min]</step>
+<step>Calculate great circle distance from (lat_station, lon_station) to each Swarm
+measurement</step>
+<step>If any measurement within 500 km radius: assign that Swarm B_NEC value to
+station</step>
+<step>If none within radius: mark as missing for this timestep</step>
+<step>Result: "LEO_B_station_A" time series for each ground station (with
+gaps)</step>
+</algorithm>
+<pros>Conceptually simple, fast to implement, physically reasonable (500 km is ~5°
+geomagnetic latitude)</pros>
+<cons>Temporal gaps when no orbit passes near station</cons>
+<code_guidance>Use scipy.spatial KDTree for fast nearest-neighbor search in lat/lon
+space</code_guidance>
+</approach>
+<approach name="Option 2: Spatial Interpolation Grid (STRETCH GOAL if ahead of
+schedule)">
+<description>Interpolate Swarm measurements onto a regular lat/lon grid, then sample
+at ground station locations</description>
+<algorithm>
+<step>For each 10-minute window (manageable computation)</step>
+<step>Collect all Swarm measurements in that window</step>
+<step>Interpolate onto 2° × 2° lat/lon grid using inverse distance weighting or
+kriging</step>
+<step>Sample interpolated grid at each ground station location</step>
+<step>Result: Complete time series (no gaps) but more processing complexity</step>
+</algorithm>
+<pros>Complete temporal coverage, smoother spatial fields</pros>
+<cons>More computationally expensive, introduces interpolation uncertainty</cons>
+<recommendation>Start with Option 1, pivot to Option 2 only if Option 1 results are
+unsatisfactory</recommendation>
+</approach>
+<deliverable week="4">LEO magnetic field time series at each ground station location
+(may have gaps - acceptable for ML training)</deliverable>
+<checkpoint week="4">GO/NO-GO: Can you create LEO time series at ground stations?
+If NO: Simplify to regional averages (e.g., high-lat average LEO signal) rather than
+station-specific</checkpoint></subsection>
+<subsection name="Phase 3C: Temporal Alignment and Final Dataset Creation (Week 5)">
+<task name="Propagation Correction for L1">
+<physics>Solar wind measured at L1 takes ~30-60 minutes to reach Earth (depends on
+velocity)</physics>
+<algorithm>
+<step>For each L1 timestamp with velocity v_sw (km/s)</step>
+<step>Calculate propagation time: t_prop = 1.5e6 km / v_sw</step>
+<step>Shift L1 measurements forward by t_prop</step>
+<step>Result: L1 measurements now represent "what's arriving at Earth now"</step>
+</algorithm>
+<code_guidance>Simple time-shift in pandas:
+df_L1.shift(periods=calculated_minutes)</code_guidance>
+</task>
+<task name="Multi-Scale Alignment">
+<step>Align all three datasets to common 1-minute timestamps (2015-2020)</step>
+<step>For each ground station, create merged DataFrame: [timestamp, L1_features,
+LEO_B_station, Ground_B_station, Ground_dBdt_station]</step>
+<step>Handle missing data: Use forward fill for L1 (up to 5 min), leave NaN for LEO
+gaps (model can handle), interpolate ground briefly (1-2 min max)</step>
+<step>Create training features (t-60 to t-1 min history) and target (t+30 min
+dB/dt)</step>
+</task>
+<task name="Dataset Export and Documentation">
+<step>Save to HDF5 or NetCDF format for efficient I/O</step>
+<step>Structure: One file per station OR one master file with station index</step>
+<step>Include metadata: station coordinates, time range, data sources, processing
+notes</step>
+<step>Calculate dataset size: should be ~40-50 GB</step>
+<step>Create data quality report: completeness statistics, gap analysis</step>
+</task>
+<deliverable week="5">Complete Multi-Scale Magnetometer Fusion Dataset (MSMF-1.0)
+ready for ML training</deliverable>
+<checkpoint week="5">CRITICAL GO/NO-GO: Is the dataset usable? Require ≥70%
+temporal completeness for majority of stations. If NO: Reduce station count or time
+period</checkpoint>
+</subsection>
+</content>
+</section><section number="4" title="Exploratory Data Analysis (Week 6)">
+<content>
+<analysis name="Multi-Scale Correlation Analysis">
+<objective>Verify physical relationships: L1 drives LEO drives Ground</objective>
+<method>
+<step>Select 2-3 major storm periods (e.g., 2015-03-17 St. Patrick's Day storm)</step>
+<step>Plot time series: L1 Bz, LEO B_North (at high-lat station), Ground dB/dt</step>
+<step>Calculate time-lagged cross-correlations: L1 vs LEO (expect ~20-40 min lag),
+LEO vs Ground (expect ~10-20 min lag)</step>
+<step>Verify causation chain visually and statistically</step>
+</method>
+<expected_result>Should see L1 Bz southward turning → LEO disturbances → Ground
+dB/dt peaks with appropriate time lags</expected_result>
+</analysis>
+<analysis name="Regional Variability Assessment">
+<objective>Demonstrate need for LEO: same L1 → different ground effects in different
+regions</objective>
+<method>
+<step>Select storm with clear L1 signature</step>
+<step>Compare ground dB/dt at high-latitude vs mid-latitude stations</step>
+<step>Show that LEO observations differ between regions during same L1
+conditions</step>
+<step>Hypothesis: LEO variability explains ground variability better than L1 alone</step>
+</method>
+</analysis>
+<analysis name="Data Completeness and Quality">
+<create>Statistics table: % completeness for L1, LEO, Ground by year and by
+station</create>
+<create>Gap analysis: distribution of missing data periods</create>
+<create>Quality flags summary: how often data was rejected</create>
+</analysis>
+<deliverable week="6">EDA report with figures showing multi-scale relationships and data
+quality assessment</deliverable>
+<output>This EDA will directly inform paper's "Data Description" and "Physical Motivation"
+sections</output>
+</content>
+</section>
+<section number="5" title="Machine Learning Model Development (Weeks 7-11)">
+<content>
+<subsection name="Baseline Model - L1 + Ground Only (Week 7)"><rationale>Must establish baseline WITHOUT LEO to demonstrate LEO's added
+value</rationale>
+<architecture>
+<model_type>CNN-LSTM Hybrid (proven effective for time series
+forecasting)</model_type>
+<input_features>
+<feature>L1 solar wind: Bz, By, Bx, velocity, density (5 variables)</feature>
+<feature>Ground magnetometer history: B_N, B_E, B_Z at target station (3
+variables)</feature>
+<feature>Time history window: 60 minutes (60 timesteps at 1-min cadence)</feature>
+</input_features>
+<architecture_sketch>
+Input: [batch, 60 timesteps, 8 features]
+↓
+1D CNN: Conv1D(filters=64, kernel=5) → ReLU → MaxPool
+↓
+Flatten + Dense(128) → ReLU
+↓
+LSTM: 2 layers, 128 units each, dropout=0.2
+↓
+Dense(64) → ReLU → Dropout(0.3)
+↓
+Output: Dense(1) → dB/dt forecast at t+30 minutes
+</architecture_sketch>
+<training_config>
+<loss>Mean Squared Error (MSE) for regression</loss>
+<optimizer>Adam, learning_rate=0.001</optimizer>
+<batch_size>64 (manageable on local GPU)</batch_size>
+<epochs>50-100 (with early stopping on validation loss)</epochs>
+<train_val_test_split>70% train / 15% validation / 15% test (temporal split, not
+random!)</train_val_test_split>
+</training_config>
+</architecture>
+<implementation_guidance>
+<framework>PyTorch or TensorFlow/Keras (student's preference)</framework>
+<training_time_estimate>2-4 hours per station on local GPU, ~8-16 hours for 4-5 priority
+stations</training_time_estimate>
+<code_structure>
+<file>baseline_model.py - Model definition</file>
+<file>train_baseline.py - Training loop</file>
+<file>evaluate_baseline.py - Performance metrics</file>
+</code_structure>
+</implementation_guidance><deliverable week="7">Trained baseline L1+Ground model for 4-5 representative stations
+(high-lat, mid-lat)</deliverable>
+<checkpoint week="7">Can model train without errors? Is validation loss decreasing? If
+NO: Debug data pipeline, check for NaN issues, simplify architecture</checkpoint>
+</subsection>
+<subsection name="Enhanced Model - L1 + LEO + Ground (Weeks 8-10)">
+<rationale>Add LEO as additional input channel - this is THE innovation</rationale>
+<architecture>
+<model_type>Same CNN-LSTM architecture, extended input features</model_type>
+<input_features>
+<feature>L1 solar wind: Bz, By, Bx, velocity, density (5 variables) - SAME</feature>
+<feature>LEO Swarm: B_N, B_E, B_C at station location (3 variables) -
+NEW!</feature>
+<feature>Ground magnetometer history: B_N, B_E, B_Z at target station (3 variables) -
+SAME</feature>
+<feature>Time history window: 60 minutes (60 timesteps at 1-min cadence)</feature>
+<total>11 input features (vs 8 for baseline)</total>
+</input_features>
+<architecture_sketch>
+Input: [batch, 60 timesteps, 11 features] ← Only change from baseline
+↓
+[Same CNN-LSTM architecture as baseline]
+↓
+Output: Dense(1) → dB/dt forecast at t+30 minutes
+</architecture_sketch>
+<training_config>Same as baseline - keep controlled for comparison</training_config>
+<handling_leo_gaps>
+<strategy>Forward fill LEO values up to 10 minutes, then use mean value during longer
+gaps</strategy>
+<alternative>Add "LEO_available" binary mask as 12th feature so model learns when
+to trust LEO</alternative>
+</handling_leo_gaps>
+</architecture>
+<week8_tasks>
+<task>Implement enhanced model architecture (minimal code change from
+baseline)</task>
+<task>Train on same stations as baseline for direct comparison</task>
+<task>Monitor: Does training converge? Is validation loss lower than baseline?</task>
+</week8_tasks>
+<week9_tasks><task>Hyperparameter tuning: learning rate, dropout, LSTM units</task>
+<task>Experiment with LEO gap handling strategies</task>
+<task>Train final model version on full training set</task>
+</week9_tasks>
+<week10_tasks>
+<task>Train enhanced model for ALL priority stations (scale up)</task>
+<task>Save trained models and training history for documentation</task>
+<task>Preliminary validation on test set</task>
+</week10_tasks>
+<deliverable week="10">Trained enhanced L1+LEO+Ground models for all priority
+stations</deliverable>
+<checkpoint week="10">CRITICAL: Does LEO improve performance vs baseline? Check
+validation metrics. If NO improvement: Analyze why (LEO gaps? Feature engineering? Regional
+effects?), possibly pivot to detailed regional case study</checkpoint>
+</subsection>
+<subsection name="Model Comparison and Analysis (Week 11)">
+<comparison_metrics>
+<metric name="RMSE">Root Mean Squared Error of dB/dt predictions</metric>
+<metric name="MAE">Mean Absolute Error</metric>
+<metric name="R²">Coefficient of determination</metric>
+<metric name="Peak Capture">How well model predicts storm-time peaks (>100 nT/min
+threshold)</metric>
+<metric name="False Alarm Rate">How often model predicts large dB/dt when none
+occurs</metric>
+<metric name="Lead Time Analysis">Performance vs forecast horizon (30min, 60min,
+90min)</metric>
+</comparison_metrics>
+<analysis_framework>
+<comparison>Baseline vs Enhanced for each station</comparison>
+<comparison>Regional patterns: Does LEO help more at high latitudes?</comparison>
+<comparison>Storm-time vs quiet-time: Does LEO matter more during active
+periods?</comparison>
+<ablation>Remove LEO features to confirm they're responsible for
+improvement</ablation>
+</analysis_framework>
+<deliverable week="11">Complete performance comparison report with statistical
+significance tests</deliverable>
+</subsection>
+</content></section>
+<section number="6" title="Validation and Storm Case Studies (Weeks 12-13)">
+<content>
+<validation_strategy>
+<test_storms>
+<storm date="2015-03-17" name="St. Patrick's Day Storm" max_kp="8+"
+intensity="Major">Primary validation case</storm>
+<storm date="2015-06-22" name="June 2015 Storm" max_kp="8"
+intensity="Major">Secondary validation</storm>
+<storm date="2017-09-07" name="September 2017 Storm" max_kp="8+"
+intensity="Major">If time permits</storm>
+</test_storms>
+<case_study_analysis>
+<element>Time series plots: Predicted vs actual dB/dt for entire storm period</element>
+<element>Peak prediction accuracy: How well did model forecast storm
+maximum?</element>
+<element>Timing accuracy: Did model predict onset correctly?</element>
+<element>Regional comparison: How did different stations perform?</element>
+<element>Baseline vs Enhanced: Side-by-side comparison for same storm</element>
+</case_study_analysis>
+</validation_strategy>
+<operational_relevance>
+<metric name="30-minute forecast skill">Most operationally relevant for grid
+operators</metric>
+<metric name="Warning threshold detection">Binary classification: Will dB/dt exceed 100
+nT/min?</metric>
+<benchmark>Compare to operational models if metrics available (e.g., NOAA's empirical
+models)</benchmark>
+</operational_relevance>
+<deliverable week="12">Storm case study report with detailed validation
+plots</deliverable>
+<deliverable week="13">Final performance metrics table and statistical
+summary</deliverable>
+</content>
+</section>
+<section number="7" title="Results Synthesis and Documentation (Week 14)">
+<content>
+<key_results_to_emphasize><result priority="1">Quantitative improvement: "L1+LEO+Ground reduced RMSE by X%
+compared to L1+Ground baseline (calculate exact improvement from validation
+metrics)"</result>
+<result priority="1">Regional insights: "LEO contribution strongest at high latitudes (>60°
+magnetic latitude) where field-aligned currents dominate"</result>
+<result priority="2">Storm-time performance: "Enhanced model captured storm peaks
+with Y% accuracy vs Z% for baseline, particularly improving extreme event prediction"</result>
+<result priority="2">Lead time advantage: "Maintained 30-minute forecast accuracy while
+baseline degraded at horizons >45 minutes"</result>
+<result priority="3">Dataset contribution: "Created first public multi-scale magnetometer
+fusion dataset (MSMF-1.0: 40-50 GB, 2015-2020, 100+ ground stations)"</result>
+<result priority="3">Computational efficiency: "Achieved results on local workstation,
+demonstrating feasibility for operational deployment without HPC resources"</result>
+</key_results_to_emphasize>
+<documentation_outputs>
+<output name="Master's Capstone Technical Report">
+<sections>
+<section>Executive Summary (1 page)</section>
+<section>Introduction and Motivation (2-3 pages: SWAG user needs, SWORM policy,
+Decadal Survey priorities)</section>
+<section>Multi-Scale Data Architecture (3-4 pages: L1, LEO, Ground sources and
+fusion methodology)</section>
+<section>Dataset Creation and Processing Pipeline (4-5 pages: alignment algorithms,
+quality control, challenges solved)</section>
+<section>Machine Learning Methodology (3-4 pages: baseline and enhanced
+architectures, training procedures)</section>
+<section>Results and Performance Analysis (5-6 pages: metrics, comparisons, storm
+case studies)</section>
+<section>Discussion (2-3 pages: physics interpretation, operational implications,
+limitations)</section>
+<section>Conclusions and Future Work (1-2 pages)</section>
+<section>References</section>
+<section>Appendices: Code examples, dataset documentation, supplementary
+figures</section>
+</sections>
+<length_target>25-35 pages total (appropriate for MS capstone)</length_target>
+<formatting>IEEE or AGU journal style for professional presentation</formatting>
+</output>
+<output name="GitHub Code Repository">
+<structure>
+<directory name="data_acquisition">
+<file>download_L1.py - Scripts for ACE/DSCOVR data</file><file>download_swarm.py - Swarm LEO data access</file>
+<file>download_supermag.py - Ground magnetometer data</file>
+<file>README.md - Data access instructions and requirements</file>
+</directory>
+<directory name="data_processing">
+<file>preprocess_L1.py - L1 preprocessing and propagation correction</file>
+<file>preprocess_swarm.py - LEO orbit track processing</file>
+<file>preprocess_ground.py - Ground data and dB/dt calculation</file>
+<file>align_multiscale.py - Spatial and temporal alignment</file>
+<file>create_dataset.py - Final HDF5/NetCDF export</file>
+</directory>
+<directory name="models">
+<file>baseline_model.py - L1+Ground CNN-LSTM architecture</file>
+<file>enhanced_model.py - L1+LEO+Ground architecture</file>
+<file>train.py - Training pipeline with checkpointing</file>
+<file>evaluate.py - Evaluation metrics and validation</file>
+</directory>
+<directory name="analysis">
+<file>exploratory_analysis.py - EDA plots and statistics</file>
+<file>performance_comparison.py - Baseline vs Enhanced comparison</file>
+<file>storm_case_studies.py - Detailed storm event analysis</file>
+<file>visualization.py - Plotting utilities</file>
+</directory>
+<directory name="notebooks">
+<file>01_data_exploration.ipynb - Interactive EDA</file>
+<file>02_model_training.ipynb - Training demonstrations</file>
+<file>03_results_visualization.ipynb - Final figures</file>
+</directory>
+<file>requirements.txt - Python dependencies</file>
+<file>environment.yml - Conda environment specification</file>
+<file>README.md - Project overview and setup instructions</file>
+<file>LICENSE - Open source license (MIT or Apache 2.0 recommended)</file>
+</structure>
+<documentation_standards>
+<standard>Docstrings for all functions (NumPy style)</standard>
+<standard>Type hints for function signatures</standard>
+<standard>README with installation, usage, and citation instructions</standard>
+<standard>Example notebooks demonstrating key workflows</standard>
+</documentation_standards>
+<best_practices>
+<practice>Version control throughout development (commit regularly)</practice>
+<practice>Modular code design for reusability</practice>
+<practice>Configuration files for hyperparameters (no hardcoded values)</practice>
+<practice>Logging for debugging and reproducibility</practice></best_practices>
+</output>
+<output name="Dataset Documentation Package">
+<components>
+<component>Dataset README describing structure, variables, units,
+coordinates</component>
+<component>Data quality report: completeness statistics, known issues, gap
+analysis</component>
+<component>Processing methodology document: alignment algorithms, quality control
+procedures</component>
+<component>Example access scripts in Python and MATLAB</component>
+<component>Citation instructions and DOI (if publishing dataset to Zenodo or
+similar)</component>
+<component>License information (CC BY 4.0 recommended for data)</component>
+</components>
+<distribution_options>
+<option priority="1">Zenodo repository (free, gets DOI, citable)</option>
+<option priority="2">University institutional repository</option>
+<option priority="3">GitHub release with download links</option>
+</distribution_options>
+</output>
+<output name="Figures and Visualizations">
+<figure_list>
+<figure n="1">System diagram: L1 → LEO → Ground scales with example data
+flow</figure>
+<figure n="2">Data coverage map: Ground station locations, Swarm orbit
+tracks</figure>
+<figure n="3">Multi-scale time series example: L1, LEO, Ground during 2015
+storm</figure>
+<figure n="4">Model architecture diagram: CNN-LSTM with input/output
+specifications</figure>
+<figure n="5">Performance comparison: Baseline vs Enhanced RMSE, MAE, R² by
+station</figure>
+<figure n="6">Storm case study: Predicted vs actual dB/dt for St. Patrick's Day
+2015</figure>
+<figure n="7">Regional analysis: LEO improvement vs magnetic latitude</figure>
+<figure n="8">Lead time degradation: Forecast skill vs prediction horizon</figure>
+</figure_list>
+<quality_standards>
+<standard>Publication-ready resolution (300 DPI minimum)</standard>
+<standard>Colorblind-friendly palettes (use viridis, plasma, or similar)</standard>
+<standard>Clear axis labels with units</standard><standard>Legends and annotations for clarity</standard>
+<standard>Consistent styling across all figures</standard>
+</quality_standards>
+</output>
+</documentation_outputs>
+<week14_specific_tasks>
+<task priority="HIGH">Write results section: synthesize all performance metrics into
+coherent narrative</task>
+<task priority="HIGH">Create all figures with publication-quality formatting</task>
+<task priority="HIGH">Finalize GitHub repository: clean code, add documentation</task>
+<task priority="MEDIUM">Write dataset documentation and prepare for Zenodo
+upload</task>
+<task priority="MEDIUM">Draft discussion section: interpret results in physics
+context</task>
+<task priority="LOW">Begin abstract and introduction for eventual paper
+submission</task>
+</week14_specific_tasks>
+<deliverable week="14">Complete draft technical report, GitHub repository ready for public
+release, all figures finalized</deliverable>
+</content>
+</section>
+<section number="8" title="Final Presentation and Capstone Delivery (Week 15)">
+<content>
+<presentation_preparation>
+<format>Assume 15-20 minute oral presentation + 5-10 minute Q&A (typical MS capstone
+format)</format>
+<slide_structure>
+<slide n="1">Title slide: Project name, your name, date, advisor</slide>
+<slide n="2">Motivation: Space weather impacts on power grids (GICs), policy context
+(SWAG/SWORM)</slide>
+<slide n="3">Research gap: Current forecasting uses L1+Ground, missing LEO
+magnetosphere observations</slide>
+<slide n="4">Your innovation: First systematic L1+LEO+Ground fusion for ML
+forecasting</slide>
+<slide n="5">Multi-scale data architecture diagram: Three scales and physical
+causation</slide>
+<slide n="6">Dataset creation: Data sources (NASA, NOAA, ESA), processing
+challenges, 40-50 GB fusion product</slide>
+<slide n="7">LEO challenge solved: Orbit track to ground station mapping
+algorithm</slide><slide n="8">ML methodology: CNN-LSTM architecture, baseline vs enhanced
+comparison framework</slide>
+<slide n="9">Key result 1: Quantitative improvement (RMSE reduction plot)</slide>
+<slide n="10">Key result 2: Storm case study (2015 St. Patrick's Day, prediction vs
+actual)</slide>
+<slide n="11">Key result 3: Regional analysis (LEO helps more at high latitudes)</slide>
+<slide n="12">Discussion: Why LEO matters - field-aligned currents and M-I
+coupling</slide>
+<slide n="13">Operational implications: Computational efficiency, real-time
+feasibility</slide>
+<slide n="14">Broader impacts: Dataset publicly available, methodology transferable to
+climate science</slide>
+<slide n="15">Future work: Real-time implementation, additional LEO constellations
+(CSES), ensemble forecasting</slide>
+<slide n="16">Acknowledgments and thank you</slide>
+</slide_structure>
+<presentation_tips>
+<tip>Practice timing: aim for 15 minutes to leave time for questions</tip>
+<tip>Anticipate questions: "Why not use physics models instead of ML?" "How do you
+handle LEO data gaps?" "What about other LEO satellites?"</tip>
+<tip>Emphasize novelty: "First to integrate LEO into ML geomagnetic forecasting"
+multiple times</tip>
+<tip>Show enthusiasm for physics: Don't just present as ML problem, explain why
+multi-scale matters physically</tip>
+<tip>Mention career goals: Briefly note relevance to DOE labs, operational forecasting
+centers</tip>
+</presentation_tips>
+</presentation_preparation>
+<final_deliverables_checklist>
+<deliverable status="REQUIRED">Complete written capstone report (PDF, 25-35
+pages)</deliverable>
+<deliverable status="REQUIRED">Presentation slides (PowerPoint or PDF)</deliverable>
+<deliverable status="REQUIRED">Code repository (GitHub link or zip file)</deliverable>
+<deliverable status="REQUIRED">Dataset or dataset access instructions</deliverable>
+<deliverable status="OPTIONAL">Poster for university research symposium (if
+applicable)</deliverable>
+<deliverable status="OPTIONAL">Short video summary (5 minutes, for
+portfolio)</deliverable>
+</final_deliverables_checklist>
+<week15_tasks>
+<task>Finalize and proofread capstone report</task><task>Create presentation slides</task>
+<task>Practice presentation 3-5 times</task>
+<task>Prepare backup slides for anticipated questions</task>
+<task>Upload dataset to Zenodo and obtain DOI</task>
+<task>Make GitHub repository public</task>
+<task>Submit all deliverables to advisor/committee</task>
+</week15_tasks>
+<deliverable week="15">ALL capstone requirements completed and submitted,
+presentation delivered</deliverable>
+</content>
+</section>
+<section number="9" title="Publication Strategy and Academic Positioning">
+<content>
+<publication_pathway>
+<timeline>
+<phase>During capstone (Weeks 14-15): Draft manuscript outline and key
+figures</phase>
+<phase>Post-capstone (Months 1-2): Write full manuscript, advisor review</phase>
+<phase>Post-capstone (Month 3): Submit to journal</phase>
+<phase>Post-capstone (Months 4-6): Address reviewer comments, revisions</phase>
+<phase>Post-capstone (Month 7): Publication (optimistic timeline)</phase>
+</timeline>
+<target_journals>
+<journal name="Space Weather" tier="1" rationale="Operational focus, short papers
+(10-15 pages), fast review (~3 months), high visibility">
+<pros>Perfect fit for ML + operations, AGU journal (prestigious), open access
+option</pros>
+<cons>Requires operational validation emphasis, less room for pure
+methodology</cons>
+<recommendation>PRIMARY TARGET - best fit for your work</recommendation>
+</journal>
+<journal name="Frontiers in Astronomy and Space Sciences" tier="2" rationale="Open
+access, ML-friendly, specialty section on space weather">
+<pros>Open access (free to publish), supportive of novel datasets, allows longer
+papers</pros>
+<cons>Newer journal (lower impact factor), publish or perish fee (~$2000 USD but
+often waived for students)</cons>
+<recommendation>SECONDARY TARGET if Space Weather
+rejects</recommendation>
+</journal><journal name="Journal of Geophysical Research: Space Physics" tier="2"
+rationale="Traditional space physics venue, high impact">
+<pros>AGU flagship, very prestigious, thorough peer review</pros>
+<cons>Longer review process (~6 months), expects extensive physics
+interpretation</cons>
+<recommendation>STRETCH TARGET if results are exceptionally
+strong</recommendation>
+</journal>
+<journal name="Journal of Space Weather and Space Climate" tier="3"
+rationale="European journal, operational focus">
+<pros>Open access, no fees, international audience, operational emphasis</pros>
+<cons>Lower visibility in US, smaller readership</cons>
+<recommendation>BACKUP OPTION</recommendation>
+</journal>
+</target_journals>
+<paper_structure>
+<section>Abstract (250 words): Novel dataset, ML methodology, key improvement
+metric</section>
+<section>Introduction (2 pages): GIC problem, current L1+Ground methods, LEO gap,
+your contribution</section>
+<section>Data and Methods (4-5 pages):
+<subsection>Multi-scale data sources (L1, LEO, Ground)</subsection>
+<subsection>Fusion methodology and alignment algorithms</subsection>
+<subsection>Dataset specifications and quality</subsection>
+<subsection>ML architecture: baseline and enhanced models</subsection>
+</section>
+<section>Results (4-5 pages):
+<subsection>Performance comparison: baseline vs enhanced</subsection>
+<subsection>Regional analysis</subsection>
+<subsection>Storm case studies</subsection>
+</section>
+<section>Discussion (2-3 pages):
+<subsection>Physics interpretation: why LEO improves forecasts</subsection>
+<subsection>Operational implications</subsection>
+<subsection>Limitations and future work</subsection>
+</section>
+<section>Conclusions (1 page)</section>
+</paper_structure>
+<key_messages_for_paper><message priority="1">First study to systematically integrate LEO magnetometer data
+into ML-based regional geomagnetic forecasting</message>
+<message priority="2">L1+LEO+Ground fusion improves dB/dt forecast accuracy by
+X%, particularly at high latitudes</message>
+<message priority="3">LEO observations capture magnetosphere-ionosphere coupling
+that explains regional storm variability</message>
+<message priority="4">Created public multi-scale fusion dataset enabling future
+research</message>
+<message priority="5">Demonstrated feasibility on local computing resources,
+supporting operational deployment</message>
+</key_messages_for_paper>
+<authorship_considerations>
+<author role="First author">You (primary researcher)</author>
+<author role="Co-author">Capstone advisor (guidance, manuscript review)</author>
+<author role="Potential co-author">NOAA or DOE collaborator if substantial contribution
+(optional)</author>
+<guidance>Discuss authorship with advisor early, follow ICMJE guidelines</guidance>
+</authorship_considerations>
+</publication_pathway>
+<section number="11" title="Risk Management and Contingency Plans">
+<content>
+<risk_assessment><risk category="Data Access" probability="LOW" impact="HIGH">
+<description>Cannot download L1, LEO, or ground data due to server issues, access
+restrictions, or format incompatibilities</description>
+<mitigation>
+<action>Test data access in Week 1—if issues, immediately contact data
+providers</action>
+<action>Have backup sources: ACE fails → use Wind; Swarm fails → use archived
+CHAMP; SuperMAG fails → use INTERMAGNET directly</action>
+<action>Absolute fallback: Use only L1+Ground (still publishable, just less
+novel)</action>
+</mitigation>
+<pivot_trigger>If by end of Week 2 any data source still inaccessible</pivot_trigger>
+</risk>
+<risk category="LEO Alignment Complexity" probability="MEDIUM" impact="HIGH">
+<description>Spatial mapping of LEO orbit tracks to ground stations proves more
+complex than anticipated, taking too long to implement</description>
+<mitigation>
+<action>Start with simplest approach (nearest-neighbor within radius), don't
+over-engineer</action>
+<action>If Week 4 checkpoint fails: Simplify to regional averages (high-lat average LEO
+signal) rather than station-specific</action>
+<action>Alternative: Use only orbit passes directly over stations (±100 km), accept
+temporal gaps</action>
+<action>Absolute fallback: Focus on single well-covered region (e.g., Scandinavia
+where IMAGE + Swarm coverage is dense)</action>
+</mitigation>
+<pivot_trigger>If by end of Week 4 cannot create usable LEO time series</pivot_trigger>
+<fallback_scope>Reduce from global to regional case study, still novel
+contribution</fallback_scope>
+</risk>
+<section number="11" title="Risk Management and Contingency Plans">
+<content>
+<risk_assessment><risk category="Data Access" probability="LOW" impact="HIGH">
+<description>Cannot download L1, LEO, or ground data due to server issues, access
+restrictions, or format incompatibilities</description>
+<mitigation>
+<action>Test data access in Week 1—if issues, immediately contact data
+providers</action>
+<action>Have backup sources: ACE fails → use Wind; Swarm fails → use archived
+CHAMP; SuperMAG fails → use INTERMAGNET directly</action>
+<action>Absolute fallback: Use only L1+Ground (still publishable, just less
+novel)</action>
+</mitigation>
+<pivot_trigger>If by end of Week 2 any data source still inaccessible</pivot_trigger>
+</risk>
+<risk category="LEO Alignment Complexity" probability="MEDIUM" impact="HIGH">
+<description>Spatial mapping of LEO orbit tracks to ground stations proves more
+complex than anticipated, taking too long to implement</description>
+<mitigation>
+<action>Start with simplest approach (nearest-neighbor within radius), don't
+over-engineer</action>
+<action>If Week 4 checkpoint fails: Simplify to regional averages (high-lat average LEO
+signal) rather than station-specific</action>
+<action>Alternative: Use only orbit passes directly over stations (±100 km), accept
+temporal gaps</action>
+<action>Absolute fallback: Focus on single well-covered region (e.g., Scandinavia
+where IMAGE + Swarm coverage is dense)</action>
+</mitigation>
+<pivot_trigger>If by end of Week 4 cannot create usable LEO time series</pivot_trigger>
+<fallback_scope>Reduce from global to regional case study, still novel
+contribution</fallback_scope>
+</risk>
+</risk_assessment>
+<checkpoint_decision_framework>
+<checkpoint week="2" title="Data Acquisition">
+<success_criteria>All three data sources downloaded, initial exploration
+complete</success_criteria>
+<go_decision>Proceed to processing phase</go_decision>
+<no_go_decision>If LEO unavailable → Pivot to L1+Ground only with focus on regional
+analysis</no_go_decision>
+<partial_go>If one ground network fails → Use alternative (INTERMAGNET vs
+SuperMAG)</partial_go>
+</checkpoint>
+<checkpoint week="4" title="LEO Spatial Alignment">
+<success_criteria>LEO time series created at ≥50% of ground stations with ≥60%
+temporal coverage</success_criteria>
+<go_decision>Proceed with station-specific LEO features</go_decision>
+<no_go_decision>Pivot to regional averaging (e.g., high-latitude average LEO
+signal)</no_go_decision>
+<partial_go>If coverage only at high-latitudes → Focus project on auroral
+zone</partial_go>
+</checkpoint>
+<checkpoint week="7" title="Baseline Model Performance">
+<success_criteria>Baseline model trains successfully, validation loss decreases,
+reasonable predictions on test set</success_criteria>
+<go_decision>Proceed with enhanced model development</go_decision>
+<no_go_decision>If baseline fails → Debug architecture, simplify, or pivot to purely data
+analysis project (dataset as primary contribution)</no_go_decision>
+</checkpoint>
+<checkpoint week="10" title="LEO Value Demonstration"><success_criteria>Enhanced model shows ≥5% RMSE improvement over
+baseline</success_criteria>
+<go_decision>Proceed with comprehensive validation and storm case
+studies</go_decision>
+<no_go_decision>If <5% improvement → Pivot to regional analysis: "When and where
+does LEO help?"</no_go_decision>
+<partial_go>If improvement only at high latitudes → Narrow scope to auroral zone
+study</partial_go>
+</checkpoint>
+<checkpoint week="12" title="Results Completeness">
+<success_criteria>All validation metrics calculated, at least one storm case study
+complete</success_criteria>
+<go_decision>Proceed with full documentation and additional analysis</go_decision>
+<no_go_decision>If incomplete → Simplify documentation, focus on core results
+only</no_go_decision>
+</checkpoint>
+</checkpoint_decision_framework>
+<fallback_project_options>
+<option name="Plan B: Regional Case Study" trigger="LEO global fusion too complex">
+<scope>Focus on single well-instrumented region (Fennoscandia with IMAGE network +
+Swarm coverage)</scope>
+<title>"Multi-Scale Geomagnetic Storm Forecasting for the Fennoscandian Auroral
+Zone"</title>
+<advantage>Simpler spatial alignment, denser data, still novel, reduces
+computation</advantage>
+<timeline>Saves 2 weeks in data processing</timeline>
+</option>
+<option name="Plan C: Dataset Paper" trigger="ML models don't work well">
+<scope>Focus on dataset creation as primary contribution</scope>
+<title>"A Multi-Scale Magnetometer Fusion Dataset for Space Weather Research
+(2015-2020)"</title>
+<deliverable>Comprehensive data product with documentation, quality analysis,
+example applications</deliverable>
+<publication>Target data journals (Scientific Data, Geoscience Data
+Journal)</publication>
+<advantage>Lower risk, guaranteed publishable, still valuable to
+community</advantage>
+</option>
+<option name="Plan D: Methodological Focus" trigger="Results are negative or
+marginal"><scope>Deep dive into why LEO does or doesn't help, under what conditions</scope>
+<title>"Assessing the Value of LEO Magnetometer Data for Regional Geomagnetic
+Storm Forecasting"</title>
+<contribution>Systematic evaluation, null results are publishable if
+well-analyzed</contribution>
+<advantage>Honest science, guides future research, still demonstrates technical
+capability</advantage>
+</option>
+</fallback_project_options>
+<stretch_goals_if_ahead>
+<goal condition="Ahead of schedule at Week 8">
+<extension>Add CSES (Chinese) LEO data as second constellation for
+validation</extension>
+<benefit>Demonstrates scalability to multiple LEO sources</benefit>
+<effort>~1 week additional processing</effort>
+</goal>
+<stretch_goals_if_ahead>
+<goal condition="Ahead of schedule at Week 8">
+<extension>Add CHAMP (German) LEO data as second constellation for
+validation</extension>
+<benefit>Demonstrates scalability to multiple LEO sources</benefit>
+<effort>~1 week additional processing</effort>
+</goal>
+<goal condition="Ahead of schedule at Week 11">
+<extension>Implement simple ensemble forecasting (train 5 models with different
+random seeds)</extension>
+<benefit>Probabilistic outputs, uncertainty quantification</benefit>
+<effort>~1 week additional training and analysis</effort>
+</goal>
+<goal condition="Ahead of schedule at Week 13">
+<extension>Create interactive web dashboard for real-time predictions</extension>
+<benefit>Strong portfolio piece, operational demonstration</benefit>
+<effort>~1 week for basic Streamlit or Dash app</effort>
+</goal>
+<goal condition="Strong results, extra time">
+<extension>Compare against operational models (if metrics available from
+NOAA)</extension>
+<benefit>Stronger operational validation</benefit>
+<effort>Data acquisition and comparison analysis</effort>
+</goal>
+</stretch_goals_if_ahead>
+</content>
+</section>
+<section number="12" title="Technical Implementation Details">
+<content>
+<software_environment><language>Python 3.9+ (recommended for compatibility with scientific
+libraries)</language>
+<core_libraries>
+<library>numpy (1.24+) - Numerical operations</library>
+<library>pandas (2.0+) - Time series manipulation</library>
+<library>scipy - Interpolation, spatial operations</library>
+<library>matplotlib, seaborn - Visualization</library>
+<library>h5py or netCDF4 - Dataset storage</library>
+</core_libraries>
+<ml_frameworks>
+<framework priority="1">PyTorch (2.0+) - Recommended for flexibility, GPU
+support</framework>
+<framework priority="2">TensorFlow/Keras (2.13+) - Alternative, slightly easier
+API</framework>
+<note>Choose ONE based on your familiarity, don't use both</note>
+</ml_frameworks>
+<data_storage_strategy>
+<raw_data>
+<location>./data/raw/L1/, ./data/raw/LEO/, ./data/raw/Ground/</location>
+<format>Keep original formats (CDF, ASCII, etc.)</format>
+<size>~60-80 GB total</size>
+<backup>External hard drive + cloud (Google Drive for critical files)</backup>
+</raw_data><processed_data>
+<location>./data/processed/</location>
+<format>HDF5 recommended (efficient I/O, supports large arrays,
+compression)</format>
+<structure>
+<file>msmf_dataset.h5</file>
+<group>/L1_features - Shape: [n_timesteps, 5 features]</group>
+<group>/LEO_features - Shape: [n_stations, n_timesteps, 3 features]</group>
+<group>/Ground_targets - Shape: [n_stations, n_timesteps, 3 features + dBdt]</group>
+<group>/metadata - Station coords, timestamps, quality flags</group>
+</structure>
+<size>~40-50 GB (with compression)</size>
+</processed_data>
+<model_outputs>
+<location>./models/</location>
+<contents>
+<file>baseline_model_stationXXX.pth - Trained weights</file>
+<file>enhanced_model_stationXXX.pth - Trained weights</file>
+<file>training_history.csv - Loss curves, metrics by epoch</file>
+<file>hyperparameters.json - Model configuration for reproducibility</file>
+</contents>
+</model_outputs>
+<results>
+<location>./results/</location>
+<contents>
+<file>performance_metrics.csv - RMSE, MAE, R² by station and model</file>
+<file>predictions/ - Predicted time series for validation</file>
+<file>figures/ - All plots for paper and presentation</file>
+</contents>
+</results>
+</data_storage_strategy>
+<computational_requirements>
+<minimum_specs>
+<cpu>4+ cores (Intel i5/i7 or AMD Ryzen equivalent)</cpu>
+<ram>16 GB (32 GB recommended for comfortable data processing)</ram>
+<storage>200 GB free space (100 GB data + 50 GB working + 50 GB buffer)</storage>
+</minimum_specs>
+<code_organization_best_practices>
+<principle>Modular design: Separate data processing, modeling, evaluation,
+visualization</principle>
+<principle>Configuration files: Use YAML or JSON for hyperparameters, file
+paths</principle>
+<principle>Logging: Use Python logging module to track processing steps and
+errors</principle>
+<principle>Testing: Write unit tests for critical functions (data alignment, coordinate
+transforms)</principle>
+<principle>Documentation: Docstrings for all functions, README for each
+subdirectory</principle>
+</code_organization_best_practices>
+</content>
+</section>
+<impact category="Scientific">
+<statement>Advances space weather forecasting by demonstrating value of LEO
+magnetometer integration</statement>
+<statement>Creates first public multi-scale fusion dataset, enabling future
+research</statement>
+<statement>Establishes methodology transferable to other multi-scale Earth system
+problems</statement>
+</impact>
+<impact category="Operational">
+<statement>Improves regional GIC forecasts, supporting power grid operators in storm
+preparedness</statement><statement>Demonstrates feasibility on modest computing resources, lowering barrier to
+operational deployment</statement>
+<statement>Provides framework for real-time forecasting systems</statement>
+</impact>
+</broader_impacts_statement>
+<open_science_commitment>
+<principle>Data: Publish fusion dataset openly with DOI (Zenodo), enable
+reproducibility</principle>
+<principle>Code: Release all processing and modeling code on GitHub under open
+license (MIT or Apache 2.0)</principle>
+<principle>Documentation: Comprehensive README, example notebooks, tutorials for
+dataset use</principle>
+<principle>Publications: Preprints on arXiv or ESSOAr before journal publication for early
+access</principle>
+<principle>Collaboration: Welcome community feedback, contributions,
+extensions</principle>
+<benefit>Accelerates science, increases citation impact, demonstrates transparency
+valued by DOE</benefit>
+</open_science_commitment>
+<section number="14" title="Success Metrics and Evaluation Criteria">
+<content>
+<capstone_success_criteria>
+<criterion priority="MUST" status="Core Requirement">
+<description>Complete written technical report meeting university MS capstone
+standards (25-35 pages)</description>
+<evaluation>Comprehensive documentation of methods, results, and analysis with
+proper citations</evaluation>
+</criterion>
+<criterion priority="MUST" status="Core Requirement">
+<description>Novel multi-scale fusion dataset created and documented (40-50 GB,
+2015-2020)</description>
+<evaluation>Dataset includes all three scales (L1, LEO, Ground), properly aligned and
+quality-controlled</evaluation>
+</criterion>
+<criterion priority="MUST" status="Core Requirement">
+<description>Functional ML forecasting model implemented and trained</description>
+<evaluation>At minimum, baseline L1+Ground model working; ideally enhanced
+L1+LEO+Ground model</evaluation>
+</criterion>
+<criterion priority="MUST" status="Core Requirement">
+<description>Quantitative evaluation on test dataset with standard metrics (RMSE, MAE,
+R²)</description><evaluation>Rigorous validation demonstrating model performance, with or without LEO
+improvement</evaluation>
+</criterion>
+<criterion priority="SHOULD" status="Expected for Quality">
+<description>Demonstrated improvement from LEO addition (>5% RMSE reduction
+preferred)</description>
+<evaluation>Clear comparison between baseline and enhanced models showing LEO
+value</evaluation>
+</criterion>
+<criterion priority="SHOULD" status="Expected for Quality">
+<description>Storm case study analysis showing operational relevance</description>
+<evaluation>At least one major storm analyzed in detail with prediction vs actual
+comparison</evaluation>
+</criterion>
+<criterion priority="SHOULD" status="Expected for Quality">
+<description>Code repository on GitHub with documentation</description>
+<evaluation>Clean, documented, reproducible code demonstrating software engineering
+skills</evaluation>
+</criterion>
+<criterion priority="NICE_TO_HAVE" status="Excellence Indicator">
+<description>Manuscript drafted for journal submission</description>
+<evaluation>Paper outline or full draft ready for advisor review, targeting Space Weather
+or similar</evaluation>
+</criterion>
+<criterion priority="NICE_TO_HAVE" status="Excellence Indicator">
+<description>Dataset published with DOI for community use</description>
+<evaluation>Zenodo upload complete, citable dataset available to research
+community</evaluation>
+</criterion>
+<criterion priority="NICE_TO_HAVE" status="Excellence Indicator">
+<description>Conference abstract submitted (AGU, SWW, or CEDAR)</description>
+<evaluation>Extended impact beyond capstone, building research profile</evaluation>
+</criterion>
+</capstone_success_criteria>
+<project_quality_indicators>
+<indicator name="Technical Rigor">
+<metric>Proper statistical validation (train/val/test split, appropriate metrics)</metric><metric>Sensitivity analysis (ablation studies, hyperparameter effects)</metric>
+<metric>Error analysis (when/where does model fail, why)</metric>
+</indicator>
+<indicator name="Scientific Depth">
+<metric>Physics interpretation of results (not just "ML worked")</metric>
+<metric>Connection to space weather literature and policy documents</metric>
+<metric>Discussion of limitations and future improvements</metric>
+</indicator>
+<indicator name="Reproducibility">
+<metric>All code available and documented</metric>
+<metric>Processing steps clearly described</metric>
+<metric>Dataset accessible or instructions provided</metric>
+</indicator>
+<indicator name="Communication Quality">
+<metric>Clear writing appropriate for technical audience</metric>
+<metric>Effective visualizations conveying key results</metric>
+<metric>Well-structured presentation of complex material</metric>
+</indicator>
+<indicator name="Innovation">
+<metric>Novel dataset creation confirmed</metric>
+<metric>First LEO integration into ML geomagnetic forecasting</metric>
+<metric>Methodological contribution beyond applying existing tools</metric>
+</indicator>
+</project_quality_indicators>
+<section number="15" title="Long-Term Vision and Follow-On Opportunities">
+<content>
+<immediate_extensions>
+<extension timeline="3-6 months post-capstone">
+<title>Real-Time Forecasting System</title>
+<description>Develop operational pipeline pulling latest L1, LEO, Ground data and
+generating forecasts</description>
+<components>
+<component>API access to real-time ACE/DSCOVR data (NASA
+CDAWeb)</component>
+<component>Automated Swarm data retrieval (viresclient scheduled
+queries)</component>
+<component>Ground magnetometer streaming (SuperMAG
+near-real-time)</component>
+<component>Model inference pipeline (pre-trained models)</component>
+<component>Web dashboard (Streamlit or Dash) showing current
+predictions</component>
+</components>
+<value>Demonstrates operational readiness, attractive to NOAA/DOE, excellent portfolio
+piece</value><technical_effort>Medium - builds on existing code, mostly system
+integration</technical_effort>
+</extension>
+<extension timeline="3-6 months post-capstone">
+<title>Additional LEO Constellations Integration</title>
+<description>Incorporate CSES (China), DMSP (USA), archived CHAMP data for
+validation and ensemble</description>
+<rationale>Shows approach works across multiple LEO sources, not just
+Swarm-specific</rationale>
+<value>Demonstrates scalability, shows robustness across different LEO missions,
+international collaboration</value>
+<publication_angle>Extension paper: "Ensemble LEO Fusion for Enhanced
+Geomagnetic Forecasting"</publication_angle>
+</extension>
+<extension timeline="6-12 months post-capstone">
+<title>Ensemble and Probabilistic Forecasting</title>
+<description>Train ensemble of models (different architectures, random seeds) for
+uncertainty quantification</description>
+<outputs>
+<output>Mean prediction (ensemble average)</output>
+<output>Prediction uncertainty (ensemble spread)</output>
+<output>Confidence intervals for operational thresholds</output>
+</outputs>
+<value>Addresses Decadal Survey priority on ensemble modeling, provides confidence
+intervals for operators, more scientifically rigorous</value>
+<operational_benefit>Grid operators can make risk-informed decisions: "90% confident
+dB/dt will exceed 100 nT/min"</operational_benefit>
+</extension>
+<extension timeline="6-12 months post-capstone">
+<title>Causal Analysis and Regional Mechanisms</title>
+<description>Deep dive into physical mechanisms - why does LEO help more in some
+regions/conditions?</description>
+<methods>Causal inference techniques, regional current system analysis,
+magnetosphere state correlations</methods>
+<value>Moves beyond pure ML to physics understanding, publishable in JGR Space
+Physics</value>
+</extension>
+</immediate_extensions>
+<research_directions>
+<direction priority="HIGH" phd_potential="VERY HIGH"><title>Physics-Informed Neural Networks (PINNs) for Space Weather</title>
+<description>Incorporate magnetohydrodynamic equations as soft constraints in loss
+function, embed physical laws directly</description>
+<motivation>Current model is data-driven; PINNs would enforce conservation laws,
+improve physical consistency, enhance generalization to extreme events</motivation>
+<technical_approach>
+<step>Encode MHD equations (continuity, momentum, energy) as residuals</step>
+<step>Add physics loss term: L_total = L_data + λ*L_physics</step>
+<step>Train on both data fit and physical constraint satisfaction</step>
+</technical_approach>
+<doe_alignment>EXTREMELY HIGH - DOE's AI for Science initiative prioritizes
+physics-guided AI, this is exactly their focus</doe_alignment>
+<publication_potential>Nature Communications, Science Advances level if done
+well</publication_potential>
+<phd_thesis_potential>Full PhD thesis topic, 3-4 years of work</phd_thesis_potential>
+</direction>
+<direction priority="MEDIUM" phd_potential="MEDIUM">
+<title>Climate Data Fusion Methodology Transfer</title>
+<description>Apply multi-scale fusion approach to climate problems: satellite + aircraft +
+surface observations for climate model validation</description>
+<motivation>Your space weather methodology directly applicable to Decadal Survey
+priorities in Earth observation fusion</motivation>
+<example_applications>
+<application>Temperature/precipitation: satellite (AIRS, MODIS) + radiosondes +
+surface stations</application>
+<application>Carbon cycle: OCO-2/3 + aircraft campaigns + flux towers</application>
+<application>Aerosols: CALIPSO + AERONET + surface monitors</application>
+</example_applications>
+<doe_alignment>HIGH - DOE's ARM Climate Research Facility, Atmospheric System
+Research program</doe_alignment>
+<career_pivot>Positions you for DOE climate science roles (ORNL, PNNL, BNL
+Environmental Sciences)</career_pivot>
+</direction>
+<funding_opportunities>
+<opportunity>
+<program>NSF CAREER Awards (if pursuing academic path)</program>
+<focus>Early-career faculty developing research program</focus>
+<connection>Multi-scale fusion for space weather and Earth systems</connection>
+<timeline>5-7 years post-PhD typically</timeline>
+</opportunity>
+<opportunity>
+<program>NASA Space Weather Science Application
+Research-to-Operations-to-Research (SWR2O2R)</program>
+<focus>Transitioning research to NOAA operational use</focus>
+<connection>Your real-time forecasting system extension directly fits</connection>
+<timeline>Post-capstone, typically 3 years, $300K-500K</timeline>
+<competitiveness>Medium - need operational partner (NOAA SWPC), but good
+fit</competitiveness>
+</opportunity>
+<opportunity>
+<program>DOE Early Career Research Program</program>
+<focus>Independent research for scientists within 10 years of PhD</focus>
+<connection>Physics-informed ML for multi-scale Earth systems</connection>
+<timeline>After securing DOE lab position, typically 5 years, $2.5M total</timeline>
+<competitiveness>Very high (~10% success rate), but prestigious</competitiveness>
+</opportunity>
+<opportunity>
+<program>NOAA Space Weather Next R2O Competitions</program>
+<focus>Transitioning cutting-edge research to operations</focus>
+<connection>Your enhanced forecasting system</connection>
+<timeline>Annual competitions, $100K-300K per project</timeline>
+<competitiveness>Medium, operationally-focused proposals favored</competitiveness>
+</opportunity>
+<opportunity>
+<program>NSF PREEVENTS (Prediction of and Resilience against Extreme
+Events)</program><focus>Improving prediction of extreme natural events</focus>
+<connection>Extreme geomagnetic storms as natural hazard to
+infrastructure</connection>
+<timeline>Varies, typically $500K-1M over 3 years</timeline>
+</opportunity>
+</funding_opportunities>
+<section number="16" title="Final Recommendations and Action Steps">
+<content>
+<immediate_next_steps>
+<step priority="CRITICAL" timeline="This week">
+<action>Discuss project scope with capstone advisor - get formal approval</action>
+<details>Share this outline, confirm timeline feasibility, discuss checkpoint criteria,
+establish communication cadence</details>
+</step>
+<step priority="CRITICAL" timeline="Week 1">
+<action>Set up computing environment and test data access</action>
+<details>
+<task>Install Python, PyTorch/TensorFlow, ⋆⋆⋆⋆epy, viresclient</task>
+<task>Register for SuperMAG account (2-day approval)</task>
+<task>Test download small sample from ACE, Swarm, SuperMAG</task>
+<task>Verify you can read CDF files and plot basic time series</task>
+</details>
+<success_criterion>Can load and visualize sample data from all three
+sources</success_criterion>
+</step>
+<step priority="HIGH" timeline="Week 1">
+<action>Create project management structure</action>
+<details>
+<task>GitHub repository initialized</task>
+<task>Google Sheet or Notion for weekly progress tracking</task>
+<task>Calendar with checkpoint deadlines marked</task>
+<task>Backup system configured (external drive + cloud)</task></details>
+</step>
+<step priority="HIGH" timeline="Week 1-2">
+<action>Literature review and citation management</action>
+<details>
+<task>Set up Zotero or Mendeley</task>
+<task>Import key papers from preliminary search</task>
+<task>Organize by category: L1 forecasting, LEO missions, ground networks, ML
+methods</task>
+<task>Read 10-15 most relevant papers, take notes</task>
+</details>
+</step>
+<step priority="MEDIUM" timeline="Week 2">
+<action>Refine station selection criteria</action>
+<details>
+<task>Query SuperMAG for stations with >90% completeness 2015-2020</task>
+<task>Select 50-100 stations emphasizing high-latitude (IMAGE, CARISMA)</task>
+<task>Create station metadata table: ID, name, lat, lon, network, data quality</task>
+</details>
+</step>
+<step priority="LOW" timeline="Week 2-3">
+<action>Begin networking for future collaborations</action>
+<details>
+<task>Email capstone advisor about potential NOAA/DOE connections</task>
+<task>Connect with ESA Swarm scientists on LinkedIn (optional)</task>
+<task>Browse NOAA SWPC website to understand operational context</task>
+</details>
+</step>
+</immediate_next_steps>
+<weekly_progress_tracking_template>
+<week number="X">
+<goals>
+<goal priority="1">Primary task for the week</goal>
+<goal priority="2">Secondary task</goal>
+<goal priority="3">Stretch goal if ahead</goal>
+</goals>
+<accomplishments>
+<item>What was completed</item>
+<item>Challenges encountered and how resolved</item>
+</accomplishments><next_week_prep>
+<item>What needs to happen next</item>
+</next_week_prep>
+<blockers>
+<item>Issues preventing progress (for advisor discussion)</item>
+</blockers>
+<time_spent>Estimated hours on project this week</time_spent>
+</week>
+</weekly_progress_tracking_template>
+<final_checklist>
+<item>Novel contribution confirmed (LEO fusion gap validated)</item>
+<item>Data sources identified and accessible (L1, LEO, Ground all public)</item>
+<item>Technical feasibility assessed (methods proven, computational resources
+adequate)</item>
+<item>Timeline realistic with checkpoints and fallbacks</item>
+<item>Career alignment strong (DOE labs, multi-scale fusion, operational
+relevance)</item>
+<item>Publication pathway clear (Space Weather journal, conference
+presentations)</item>
+<item>Broader impacts articulated (grid resilience, scientific dataset, methodology
+transfer)</item>
+<item>Risk mitigation planned (fallback options at every checkpoint)</item>
+<item>Long-term vision established (extensions, PhD directions, funding
+opportunities)</item>
+<item>Advisor approval (obtain in Week 1)</item>
+<item>Computing environment ready (set up in Week 1)</item>
+<item>Data access tested (verify in Week 1)</item>
+<item>BEGIN EXECUTION</item>
+</final_checklist>
+</content>
+</section>
+</instructions>
+</meta_prompt_stage>
